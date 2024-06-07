@@ -1,16 +1,20 @@
 $(document).ready(function () {
-    $('.amenities UL LI INPUT').css('margin-right', '10px');
-    let idDict = {};
-    $('input[type="checkbox"]').click(function () {
-      if ($(this).is(':checked')) {
-        idDict[$(this).attr('data-id')] = $(this).attr('data-name');
-      } else if ($(this).is(':not(:checked)')) {
-        delete idDict[$(this).attr('data-id')];
-      }
-      let alist = [];
-      for (let k in idDict) {
-        alist.push(idDict[k]);
-      }
-      $('.amenities h4').text(alist.join(', '));
-    });
+  const amnt = {};
+  $('input:checkbox').change(function () {
+    const input = $(this)[0];
+    const id = input.dataset.id;
+    const name = input.dataset.name;
+
+    if ($(this).is(':checked')) {
+      amnt[id] = name;
+    } else {
+      delete amnt[id];
+    }
+    let text = Object.values(amnt).toString().slice(0, 28);
+    text += text.length >= 28 ? '...' : '';
+    if (text === '') {
+      text = '&nbsp;';
+    }
+    $('#amnts_cheked').html(text);
   });
+});
